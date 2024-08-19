@@ -14,4 +14,14 @@ export default defineConfig({
       generateScopedName: "[name]__[local]__[hash:base64:5]",
     },
   },
+  server: {
+    // 代理，解决开发环境跨域问题
+    proxy: {
+      "/api": {
+        target: "http://localhost:8080",
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api/, ""),
+      },
+    },
+  },
 });
