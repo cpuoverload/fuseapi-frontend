@@ -1,19 +1,10 @@
+import { ERROR } from "@/const/const";
 import axios from "axios";
 
-// 使用方法
-//   apiClient
-//     .request({
-//       method: "get",
-//       url: "/api/docs/example",
-//     })
-//     .then((res) => {
-//       console.log(res);
-//     });
-
 const apiClient = axios.create({
-  // 开发环境配置 baseURL 为 undefined，域名就会是开发服务器的域名，就会被代理。
+  // baseURL 在开发环境配置为 path，域名默认是开发服务器的域名，会被代理。在生产环境配置为绝对 url。
   // todo: 改为线上域名
-  baseURL: import.meta.env.PROD ? "https://xxx" : undefined,
+  baseURL: import.meta.env.PROD ? "https://xxx" : "/api",
   withCredentials: true,
   headers: {
     "Content-Type": "application/json",
@@ -35,6 +26,13 @@ apiClient.interceptors.response.use(
     return response;
   },
   (error) => {
+    if (error.response && error.response.status === 403) {
+      // 未登录，跳转到登录页
+      if (error.response.data.code == ERROR.UNLOGIN) {
+        window.location.href = "/user/login";
+        return;
+      }
+    }
     return Promise.reject(error);
   }
 );
