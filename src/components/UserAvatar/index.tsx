@@ -13,11 +13,7 @@ const Index = forwardRef<HTMLDivElement, React.ComponentPropsWithoutRef<"div">>(
             ref={ref}
             name="猪猪侠"
             color="initials"
-            style={{
-              marginLeft: "auto",
-              marginRight: "10px",
-              cursor: "pointer",
-            }}
+            style={{ cursor: "pointer" }}
           />
         </Menu.Target>
 

@@ -1,10 +1,12 @@
-import { AppShell, Group, NavLink } from "@mantine/core";
+import { AppShell, Button, Group, NavLink } from "@mantine/core";
 import { Link } from "react-router-dom";
 import ROUTES from "../../routes";
 import UserAvatar from "../UserAvatar";
+import useStore from "@/store/store";
 
 const Index = (props) => {
   const { basePath } = props;
+  const isLogin = useStore((state) => state.isLogin);
 
   return (
     <AppShell.Header>
@@ -34,7 +36,25 @@ const Index = (props) => {
           active={basePath == ROUTES.STATISTICS}
           variant="subtle"
         />
-        <UserAvatar />
+        <div
+          style={{
+            marginLeft: "auto",
+            marginRight: "10px",
+          }}
+        >
+          {isLogin ? (
+            <UserAvatar />
+          ) : (
+            <Group>
+              <Button variant="default" component={Link} to={ROUTES.LOGIN}>
+                登录
+              </Button>
+              <Button variant="default" component={Link} to={ROUTES.REGISTER}>
+                注册
+              </Button>
+            </Group>
+          )}
+        </div>
       </Group>
     </AppShell.Header>
   );

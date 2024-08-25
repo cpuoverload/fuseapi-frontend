@@ -1,5 +1,7 @@
-import { ERROR } from "@/const/const";
+import { ErrorMap } from "@/const/const";
 import axios from "axios";
+import notification from "@/utils/notification";
+import ROUTES from "@/routes";
 
 const apiClient = axios.create({
   // baseURL 在开发环境配置为 path，域名默认是开发服务器的域名，会被代理。在生产环境配置为绝对 url。
@@ -23,13 +25,21 @@ apiClient.interceptors.request.use(
 
 apiClient.interceptors.response.use(
   (response) => {
+    const { code, message } = response.data;
+    if (code == undefined) {
+      notification.fail("系统错误");
+      return Promise.reject(response);
+    } else if (code != 0 && !message) {
+      response.data.message = ErrorMap[code] ?? "系统错误";
+    }
     return response;
   },
   (error) => {
+    console.error(error);
     if (error.response && error.response.status === 403) {
       // 未登录，跳转到登录页
-      if (error.response.data.code == ERROR.UNLOGIN) {
-        window.location.href = "/user/login";
+      if (error.response.data.code == ErrorMap["10001"]) {
+        window.location.href = ROUTES.LOGIN;
         return;
       }
     }

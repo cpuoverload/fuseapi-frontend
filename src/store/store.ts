@@ -1,9 +1,15 @@
 import { create } from "zustand";
 
-const useStore = create((set) => ({
+interface LoginState {
+  isLogin: boolean;
+  login: () => void;
+  logout: () => void;
+}
+
+const useStore = create<LoginState>()((set) => ({
   isLogin: false,
-  login: () => set((state) => ({ isLogin: true })),
-  logout: () => set((state) => ({ isLogin: false })),
+  login: () => set(() => ({ isLogin: true })),
+  logout: () => set(() => ({ isLogin: false })),
 }));
 
 export default useStore;
