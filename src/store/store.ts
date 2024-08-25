@@ -1,15 +1,19 @@
-import { create } from "zustand";
+import { create, StateCreator } from "zustand";
 
-interface LoginState {
-  isLogin: boolean;
-  login: () => void;
-  logout: () => void;
+interface LoginSlice {
+  loginUser: API.UserVo;
+  putUser: (loginUser: API.UserVo) => void;
+  removeUser: () => void;
 }
 
-const useStore = create<LoginState>()((set) => ({
-  isLogin: false,
-  login: () => set(() => ({ isLogin: true })),
-  logout: () => set(() => ({ isLogin: false })),
+const loginSlice: StateCreator<LoginSlice, [], [], LoginSlice> = (set) => ({
+  loginUser: false,
+  putUser: (loginUser) => set(() => ({ loginUser })),
+  removeUser: () => set(() => ({ loginUser: undefined })),
+});
+
+const useStore = create<LoginSlice>()((...a) => ({
+  ...loginSlice(...a),
 }));
 
 export default useStore;

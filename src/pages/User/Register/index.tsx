@@ -12,7 +12,7 @@ import {
   LoadingOverlay,
 } from "@mantine/core";
 import { useForm, hasLength } from "@mantine/form";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { USERNAME, PASSWORD } from "@/const/const";
 import { register } from "@/services/api/userController";
 import notification from "@/utils/notification";
@@ -33,6 +33,7 @@ const Index = () => {
     },
   });
 
+  const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
 
   const submit = async (values: typeof form.values) => {
@@ -44,7 +45,8 @@ const Index = () => {
       });
       const { code, message } = res.data;
       if (code == 0) {
-        notification.success("注册成功");
+        notification.success("注册成功，正在跳转登录页面");
+        navigate(ROUTES.LOGIN);
       } else {
         notification.fail(message!);
       }

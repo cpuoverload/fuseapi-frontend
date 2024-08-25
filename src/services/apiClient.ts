@@ -38,7 +38,8 @@ apiClient.interceptors.response.use(
     console.error(error);
     if (error.response && error.response.status === 403) {
       // 未登录，跳转到登录页
-      if (error.response.data.code == ErrorMap["10001"]) {
+      if (error.response.data.code == "10001") {
+        // todo 移除 loginUser 状态，需要 zustand 非 hook 方式获取 state
         window.location.href = ROUTES.LOGIN;
         return;
       }

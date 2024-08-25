@@ -6,7 +6,7 @@ import useStore from "@/store/store";
 
 const Index = (props) => {
   const { basePath } = props;
-  const isLogin = useStore((state) => state.isLogin);
+  const loginUser = useStore((state) => state.loginUser);
 
   return (
     <AppShell.Header>
@@ -42,7 +42,7 @@ const Index = (props) => {
             marginRight: "10px",
           }}
         >
-          {isLogin ? (
+          {loginUser ? (
             <UserAvatar />
           ) : (
             <Group>

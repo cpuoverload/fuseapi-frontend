@@ -11,11 +11,12 @@ import {
   LoadingOverlay,
 } from "@mantine/core";
 import { useForm, hasLength } from "@mantine/form";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { USERNAME, PASSWORD } from "@/const/const";
 import { login } from "@/services/api/userController";
 import ROUTES from "@/routes";
 import notification from "@/utils/notification";
+import useStore from "@/store/store";
 
 const Index = () => {
   const form = useForm({
@@ -33,6 +34,8 @@ const Index = () => {
     },
   });
 
+  const navigate = useNavigate();
+  const putUser = useStore((state) => state.putUser);
   const [isLoading, setIsLoading] = useState(false);
 
   const submit = async (values: typeof form.values) => {
@@ -42,9 +45,11 @@ const Index = () => {
         username: values[USERNAME],
         password: values[PASSWORD],
       });
-      const { code, message } = res.data;
+      const { code, message, data } = res.data;
       if (code == 0) {
         notification.success("登录成功");
+        putUser(data!);
+        navigate(ROUTES.EXPLORER);
       } else {
         notification.fail(message!);
       }
