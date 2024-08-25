@@ -1,6 +1,7 @@
-import { AppShell, Group, NavLink, Avatar } from "@mantine/core";
+import { AppShell, Group, NavLink } from "@mantine/core";
 import { Link } from "react-router-dom";
 import ROUTES from "../../routes";
+import UserAvatar from "../UserAvatar";
 
 const Index = (props) => {
   const { basePath } = props;
@@ -33,13 +34,7 @@ const Index = (props) => {
           active={basePath == ROUTES.STATISTICS}
           variant="subtle"
         />
-        <Avatar
-          src={"/src/assets/ggbond.jpeg"}
-          style={{
-            marginLeft: "auto",
-            marginRight: "10px",
-          }}
-        />
+        <UserAvatar />
       </Group>
     </AppShell.Header>
   );

@@ -1,5 +1,5 @@
 const Index = () => {
-  return "注册页面";
+  return <>register</>;
 };
 
 export default Index;

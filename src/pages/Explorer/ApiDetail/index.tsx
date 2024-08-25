@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom";
 
-const Index = () => {
+const Index = (props) => {
   const { id } = useParams();
 
   return id;

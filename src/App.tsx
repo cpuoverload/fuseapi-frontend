@@ -1,38 +1,32 @@
-import { AppShell } from "@mantine/core";
-import { Routes, Route, useLocation } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import ROUTES from "./routes";
-import Header from "./components/Header";
+import Layout from "./components/Layout";
 import Explorer from "./pages/Explorer";
 import Management from "./pages/Management";
 import Statistics from "./pages/Statistics";
+import Login from "./pages/User/Login";
+import Register from "./pages/User/Register";
+import Profile from "./pages/User/Profile";
 
 export function App() {
-  // useLocation() 在 url 变化时会重渲染整个组件
-  const location = useLocation();
-  const basePath = "/" + location.pathname.split("/")[1];
-  const showNavbar = basePath === ROUTES.EXPLORER;
-
   return (
-    <AppShell
-      header={{ height: 60 }}
-      padding="md"
-      // 侧边栏
-      navbar={
-        showNavbar
-          ? {
-              width: 300,
-              breakpoint: "sm",
-            }
-          : undefined
-      }
-    >
-      <Header basePath={basePath} />
-      <Routes>
-        <Route path={ROUTES.EXPLORER + "/*"} element={<Explorer />} />
-        <Route path={ROUTES.MANAGEMENT} element={<Management />} />
-        <Route path={ROUTES.STATISTICS} element={<Statistics />} />
-      </Routes>
-    </AppShell>
+    <Routes>
+      <Route path={ROUTES.LOGIN} element={<Login />} />
+      <Route path={ROUTES.REGISTER} element={<Register />} />
+      <Route
+        path="*"
+        element={
+          <Layout>
+            <Routes>
+              <Route path={ROUTES.EXPLORER + "/*"} element={<Explorer />} />
+              <Route path={ROUTES.MANAGEMENT} element={<Management />} />
+              <Route path={ROUTES.STATISTICS} element={<Statistics />} />
+              <Route path={ROUTES.PROFILE} element={<Profile />} />
+            </Routes>
+          </Layout>
+        }
+      />
+    </Routes>
   );
 }
 
